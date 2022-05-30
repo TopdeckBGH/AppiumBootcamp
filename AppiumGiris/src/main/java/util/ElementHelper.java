@@ -3,7 +3,6 @@ package util;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -15,7 +14,6 @@ import org.testng.Assert;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class ElementHelper {
     AppiumDriver driver;
@@ -28,9 +26,9 @@ public class ElementHelper {
         this.action = new Actions(driver);
     }
 
-    /**
-     * @param key
-     * @return
+    /** Finds the given element.
+     * @param key Distinctive value of the element.
+     * @return Specified element is returned.
      */
     public WebElement findElement(By key) {
         WebElement element = presenceElement(key);
@@ -38,9 +36,9 @@ public class ElementHelper {
         return element;
     }
 
-    /**
-     * @param key
-     * @return
+    /** Finds given elements.
+     * @param key Distinctive value of elements.
+     * @return Specified elements are returned.
      */
     public List<WebElement> findElements(By key) {
         List<WebElement> elements = presenceElements(key);
@@ -48,82 +46,66 @@ public class ElementHelper {
         return elements;
     }
 
-    /**
-     * @param key
+    /** Specified element is clicked.
+     * @param key Distinctive value of the element.
      */
     public void click(By key) {
         findElement(key).click();
     }
 
-    /**
-     * @param key
-     * @param text
+    /** Given input is written in the specified element.
+     * @param key Distinctive value of the element.
+     * @param text Desired input.
      */
     public void sendKey(By key, String text) {
         findElement(key).sendKeys(text);
     }
 
-    /**
-     * @param key
-     * @return
+    /** Returns specified element's text value.
+     * @param key Distinctive value of the element.
+     * @return Specified element's text value is returned.
      */
     public String getText(By key) {
         return findElement(key).getText();
     }
 
-    /**
-     * @param key
-     * @param text
-     * @return
-     */
-    public boolean checkElementText(By key, String text) {
-        return wait.until(ExpectedConditions.textMatches(key, Pattern.compile(text)));
-    }
 
-    /**
-     * @param key
-     */
-    public void checkElementVisible(By key) {
-        wait.until(ExpectedConditions.visibilityOf(findElement(key)));
-    }
-
-    /**
-     *
-     * @param key
+    /** Checks if the specified element is present.
+     * @param key Distinctive value of the element.
      */
     public void checkElementPresence(By key) {
         wait.until(ExpectedConditions.presenceOfElementLocated(key));
     }
 
-    /**
-     * @param text
-     * @return
+    /** Asserts the title of the current page with the given input.
+     * @param text Given input.
+     * @return true, if the title of the current page is same as input; false otherwise.
      */
     public boolean checkTitle(String text) {
         return wait.until(ExpectedConditions.titleIs(text));
     }
 
-    /**
-     * @param key
-     * @param attr
-     * @return
+    /** Gets the specified elements specified attribute.
+     * @param key Distinctive value of the element.
+     * @param attr Specified attribute.
+     * @return Text of the specified elements specified attribute.
      */
     public String getAttribute(By key, String attr) {
         return findElement(key).getAttribute(attr);
     }
 
-    /**
-     * @param key
-     * @param attr
-     * @param text
+    /** Asserts if the specified element's specified attribute is equal to given input.
+     * @param key Distinctive value of the element.
+     * @param attr Specified attribute.
+     * @param text Given input.
      */
     public void checkAttribute(By key, String attr, String text) {
         Assert.assertEquals(getAttribute(key, attr), text);
     }
 
-    /**
-     * @param key
-     * @param text
+    /** Clicks the specified element.
+     * @param key Distinctive value of the element.
+     * @param text Given input.
      */
     public void clickElementWithText(By key, String text) {
         boolean find = false;
@@ -138,9 +120,9 @@ public class ElementHelper {
         Assert.assertEquals(true, find);
     }
 
-    /**
-     * @param key
-     * @param text
+    /** Asserts if the specified element is equal to given input.
+     * @param key Distinctive value of the element.
+     * @param text Given input.
      */
     public void checkElementWithText(By key, String text) {
         boolean find = false;
@@ -154,42 +136,24 @@ public class ElementHelper {
         Assert.assertEquals(true, find);
     }
 
-    /**
-     * @param key
-     * @param text
-     * @param text2
-     */
-    public void sendKeyElementWithText(By key, String text, String text2) {
-        boolean find = false;
-        List<WebElement> elements = findElements(key);
-        for (WebElement element : elements) {
-            if (element.getText().equals(text)) {
-                element.sendKeys(text2);
-                find = true;
-                break;
-            }
-        }
-        Assert.assertEquals(true, find);
-    }
-
-    /**
-     * @param key
-     * @return
+    /** Gets specified element.
+     * @param key Distinctive value of the element.
+     * @return Specified WebElement.
      */
     public WebElement presenceElement(By key) {
         return wait.until(ExpectedConditions.presenceOfElementLocated(key));
     }
 
-    /**
-     * @param key
-     * @return
+    /** Gets specified elements.
+     * @param key Distinctive value of the element.
+     * @return Specified WebElements.
      */
     public List<WebElement> presenceElements(By key) {
         return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(key));
     }
 
-    /**
-     * @param element
+    /** Scrolls to WebElement.
+     * @param element Given WebElement.
      */
     public void scrollToElement(WebElement element) {
         String scrollElementIntoMiddle = "var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);"
@@ -198,14 +162,13 @@ public class ElementHelper {
         ((JavascriptExecutor) driver).executeScript(scrollElementIntoMiddle, element);
     }
 
-    /**
-     *
-     * @param firstX
-     * @param firstY
-     * @param lastX
-     * @param lastY
+    /** Drags on the coordinates of point firstX, firstY and drops on the coordinates of lastX, lastY.
+     * @param firstX X-axis of drag operation.
+     * @param firstY Y-axis of drag operation.
+     * @param lastX X-axis of drop operation.
+     * @param lastY Y-axis of drop operation.
      */
-    public void dragAndDropElement2(int firstX, int firstY, int lastX, int lastY) {
+    public void dragAndDropElement(int firstX, int firstY, int lastX, int lastY) {
         new TouchAction(driver).press(PointOption.point(firstX, firstY))
                 .waitAction(WaitOptions.waitOptions(Duration.ofMillis(2000)))
                 .perform().moveTo(PointOption.point(lastX, lastY))

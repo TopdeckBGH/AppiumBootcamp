@@ -23,10 +23,7 @@ public class DriverFactory {
             capabilities.setCapability("appPackage", "com.lcwaikiki.android");
             capabilities.setCapability("appActivity", "com.lcwaikiki.android.ui.SplashActivity");
         } else if (browser.equals("iOS")) {
-            capabilities.setCapability("platformName", "iOS");
-            capabilities.setCapability("udid", "rsdgn1156");
-            capabilities.setCapability("appPackage", "com.iPhone.faladdin.app");
-            capabilities.setCapability("appActivity", "com.iPhone.faladdin.app.ui.launcher.LauncherActivity");
+
         }
         try {
             driver = new AppiumDriver(new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
